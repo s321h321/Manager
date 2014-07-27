@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Manager Login</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Common Template</title>
+<link rel="stylesheet" href="${base}/css/bootstrap/bootstrap.css">
+<!--[if lte IE 9]>
+	<script src="${base}/js/respond.min.js"></script>
+	<script src="${base}/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="container-fluid small">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!--: includeFileTemplate("header.html"){} -->
+			</div>
+		</div>
+		<div class="row">
+				${layoutContent}
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!--: includeFileTemplate("footer.html"){} -->
+			</div>
+		</div>
+	</div>
+	<script
+		src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
+	<script 
+		src="${base}/lib/bootstrap/bootstrap.min.js"></script>
+		<script  src="${base}/js/menu.js"></script>
+</body>
+</html>

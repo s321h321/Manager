@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${i18n("login.tile")}</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="${base}/css/bootstrap/bootstrap.css">
+<!--[if lte IE 9]>
+	<script src="${base}/js/respond.min.js"></script>
+	<script src="${base}/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="container-fluid small">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<form class="form-signin" style="text-align:center" role="form" method="post"
+							action="${base}/user/Login">
+							<h2 class="form-signin-heading">${i18n("login.login.title")}</h2>
+							<input type="email" name="uname" class="form-control"
+								placeholder="${i18n('login.email.add')}" required autofocus>
+							<input type="password" name="password" class="form-control"
+								placeholder="${i18n('login.pass')}" required>
+							<div class="checkbox">
+								<label> <input type="checkbox" value="remember-me">
+									${i18n("login.remember")}
+								</label>
+							</div>
+							<button class="btn btn-lg btn-primary btn-block" type="submit">${i18n("login.login")}</button>
+						</form>
+					</div>
+				</div>
+		</div>
+		<script src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
+		<script src="${base}/lib/bootstrap/bootstrap.min.js"></script>
+</body>
+</html>
