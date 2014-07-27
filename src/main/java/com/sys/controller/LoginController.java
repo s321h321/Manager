@@ -15,7 +15,6 @@ public class LoginController extends Controller {
 	public void index() {
 		render("index.html");
 	}
-
 	public void Login() {
 		String username=getPara("uname");
 		String password=getPara("password");

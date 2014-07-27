@@ -18,6 +18,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
+import com.jfinal.render.ViewType;
 import com.sys.Interceptors.GlobalInterceptor;
 import com.sys.common.I18n;
 import com.sys.common.SysLogs;
@@ -50,7 +51,6 @@ public class SysConfig extends JFinalConfig {
 		SysLogs.log(SysConfig.class, "i", "系统开始初始化configConstant");
 		SysLogs.log(SysConfig.class, "i", "加载并缓存db.properties文件");
 		loadDBConfig();
-		constants.setDevMode(true);
 		constants.setEncoding(IConfigConst.GLOBAL_ENCODE);
 		//添加国际化支持
 		I18N.init(getProperty(IConfigConst.GLOBAL_FILE_NAME), Locale.CHINESE, null);
@@ -59,6 +59,8 @@ public class SysConfig extends JFinalConfig {
         // 获取GroupTemplate ,可以设置共享变量等操作
 		GroupTemplate groupTemplate = BeetlRenderFactory.groupTemplate ;
 		groupTemplate.registerFunction("i18n", new I18n());
+		//设置为开发模式打印日志信息
+		constants.setDevMode(true);
 		SysLogs.log(SysConfig.class, "i", "初始化Beetl模版和I18n初始化结束");
 	}
 
@@ -103,7 +105,7 @@ public class SysConfig extends JFinalConfig {
 		SysLogs.log(SysConfig.class, "i", "configPlugin-druid插件结束初始化");
 		// 集成druid数据源支持并监控
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-		//配置大小写不敏感
+		//配置数据库列名大小写不敏感
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
 		plugins.add(arp);
 		/** 配置model与数据库表映射关系*/
@@ -117,7 +119,7 @@ public class SysConfig extends JFinalConfig {
 	public void configRoute(Routes routes) {
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息");
 		routes.add("/",FirstController.class);
-		routes.add("/user",LoginController.class,"/pages");
+		routes.add("/login",LoginController.class);
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息结束");
 	}
 	
