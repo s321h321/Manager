@@ -13,7 +13,7 @@ import com.sys.service.LoginService;
 public class LoginController extends Controller {
 	private LoginService loginservice=new LoginService();
 	public void index() {
-		render("index.html");
+		render("/index.html");
 	}
 
 	public void Login() {
@@ -21,9 +21,9 @@ public class LoginController extends Controller {
 		String password=getPara("password");
 		UserModel user =loginservice.login(username, password);
 		if (null != user) {
-			render("index.html");
+			render("/index.html");
 		} else {
-			render("login.html");
+			render("/login.html");
 		}
 
 	}

@@ -117,7 +117,7 @@ public class SysConfig extends JFinalConfig {
 	public void configRoute(Routes routes) {
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息");
 		routes.add("/",FirstController.class);
-		routes.add("/user",LoginController.class,"/pages");
+		routes.add("/user",LoginController.class);
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息结束");
 	}
 	
