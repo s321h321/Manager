@@ -23,6 +23,7 @@ import com.sys.common.I18n;
 import com.sys.common.SysLogs;
 import com.sys.controller.FirstController;
 import com.sys.controller.LoginController;
+import com.sys.controller.UserController;
 import com.sys.model.UserModel;
 import com.sys.sysconst.IConfigConst;
 public class SysConfig extends JFinalConfig {
@@ -118,6 +119,7 @@ public class SysConfig extends JFinalConfig {
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息");
 		routes.add("/",FirstController.class);
 		routes.add("/user",LoginController.class);
+		routes.add("/userInfo",UserController.class);
 		SysLogs.log(SysConfig.class, "i", "configRoute-初始化路由信息结束");
 	}
 	
