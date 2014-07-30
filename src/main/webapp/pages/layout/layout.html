@@ -14,25 +14,13 @@
 	<![endif]-->
 </head>
 <body>
+	<!--: includeFileTemplate("header.html"){} -->
 	<div class="container-fluid small">
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<!--: includeFileTemplate("header.html"){} -->
-			</div>
-		</div>
-		<div class="row">
-				${layoutContent}
-		</div>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<!--: includeFileTemplate("footer.html"){} -->
-			</div>
-		</div>
+		<div class="row">${layoutContent}</div>
 	</div>
-	<script
-		src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
-	<script 
-		src="${base}/lib/bootstrap/bootstrap.min.js"></script>
-		<script  src="${base}/js/menu.js"></script>
+	<!--: includeFileTemplate("footer.html"){}-->
+	<script src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
+	<script src="${base}/lib/bootstrap/bootstrap.min.js"></script>
+	<script src="${base}/js/menu.js"></script>
 </body>
 </html>
