@@ -1,72 +1,79 @@
 <!--:layout("layout/layout.html"){-->
-<div class="col-xs-5 col-sm-5 col-md-2 col-lg-2">
-	<ul id="menu" class="nav nav-pills nav-stacked">
-		<li class="active"><a href="#">用户管理<span class="fa arrow"></span></a>
-			<ul class="nav nav-pills nav-stacked" role="tablist">
-				<li role="presentation"><a href="#">菜单一</a></li>
-				<li role="presentation"><a href="#">菜单二</a></li>
-				<li role="presentation"><a href="#">菜单三</a></li>
-				<li role="presentation"><a href="#">菜单四</a></li>
-				<li role="presentation"><a href="#">菜单五</a></li>
-			</ul></li>
-		<li class="active"><a href="#">权限管理<span class="fa arrow"></span></a>
-			<ul class="nav nav-pills nav-stacked" role="tablist">
-				<li role="presentation"><a href="#">权限菜单一</a></li>
-				<li role="presentation"><a href="#">权限菜单二</a></li>
-				<li role="presentation"><a href="#">权限菜单三</a></li>
-				<li role="presentation"><a href="#">权限菜单四</a></li>
-				<li role="presentation"><a href="#">权限菜单五</a></li>
-			</ul></li>
-	</ul>
-</div>
-<div class="col-xs-7 col-sm-7 col-md-10 col-lg-10">
-	<a href="${base}/user/Login">跳转至登录页面</a>
-	<div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">Panel heading</div>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Username</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td rowspan="2">1</td>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
-				</tr>
-				<tr>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@TwBootstrap</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>Jacob</td>
-					<td>Thornton</td>
-					<td>@fat</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td colspan="2">Larry the Bird</td>
-					<td>@twitter</td>
-				</tr>
-			</tbody>
-		</table>
-		<ul class="pagination">
-			<li><a href="#">上一页</a></li>
-			<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">下一页</a></li>
-		</ul>
+<div class="container-fluid small">
+	<div class="row">
+		<div class="col-xs-5 col-sm-5 col-md-2 col-lg-2">
+			<ul id="menu" class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#">用户管理<span class="fa arrow"></span></a>
+					<ul class="nav nav-pills nav-stacked " role="tablist">
+						<li role="presentation" class="nav-tabs" ><a href="#">菜单一</a></li>
+						<li role="presentation"class="nav-tabs" ><a href="#">菜单二</a></li>
+						<li role="presentation"class="nav-tabs" ><a href="#">菜单三</a></li>
+						<li role="presentation"class="nav-tabs" ><a href="#">菜单四</a></li>
+						<li role="presentation"class="nav-tabs" ><a href="#">菜单五</a></li>
+					</ul></li>
+				<li class="active"><a href="#">权限管理<span class="fa arrow"></span></a>
+					<ul class="nav nav-pills nav-stacked" role="tablist">
+						<li role="presentation"><a href="#">权限菜单一</a></li>
+						<li role="presentation"><a href="#">权限菜单二</a></li>
+						<li role="presentation"><a href="#">权限菜单三</a></li>
+						<li role="presentation"><a href="#">权限菜单四</a></li>
+						<li role="presentation"><a href="#">权限菜单五</a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<div class="col-xs-7 col-sm-7 col-md-10 col-lg-10">
+			<a href="${base}/user/Login">跳转至登录页面</a>
+			<div class="panel panel-default panel-primary">
+				<!-- Default panel contents -->
+				<div class="panel-heading">${i18n("user.table.title")}</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Username</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td rowspan="2">1</td>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@TwBootstrap</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td colspan="2">Larry the Bird</td>
+								<td>@twitter</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			当前第1页，共10页,每页显示10条数据,共100条记录
+			<ul class="pagination" style="float:right;position:relative;top:-35px">
+				<li><a href="#">上一页</a></li>
+				<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="${base}/userInfo/pages/1-10">下一页</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
 <!--:}-->
