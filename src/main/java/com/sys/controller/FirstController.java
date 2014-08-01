@@ -5,6 +5,6 @@ import com.jfinal.core.Controller;
 
 public class FirstController extends Controller {
 	public void index() {
-		render("login.html");
+		render("/templates/dataTable.html");
 	}
 }

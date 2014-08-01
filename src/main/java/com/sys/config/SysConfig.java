@@ -104,6 +104,8 @@ public class SysConfig extends JFinalConfig {
 		SysLogs.log(SysConfig.class, "i", "configPlugin-druid插件结束初始化");
 		// 集成druid数据源支持并监控
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
+		//设置打印SQL语句
+		arp.setShowSql(true);
 		//配置大小写不敏感
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
 		plugins.add(arp);
