@@ -12,21 +12,20 @@
 	<![endif]-->
 </head>
 <body>
-			
+
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="panel-heading">	<label>职务:</label>
-		 <select>
-		 <option>选择职务:</option>
-		 <option>IT</option>
-		 <option>行政</option>
-		 <option>销售</option>
-		 <option>民工</option>
-		</select>
-		
-		<label>姓名:</label><input type="text">
-		<input class="input-medium search-query" type="text" />
-					<button class="btn" contenteditable="true" type="submit">查找</button></div>
+		<div class="panel-heading">
+			<label>职务:</label> <select>
+				<option>选择职务:</option>
+				<option>IT</option>
+				<option>行政</option>
+				<option>销售</option>
+				<option>民工</option>
+			</select> <label>姓名:</label><input type="text"> <input
+				class="input-medium search-query" type="text" />
+			<button class="btn" contenteditable="true" type="submit">查找</button>
+		</div>
 		<table id="usertable" class="table table-bordered table-condensed">
 			<thead>
 				<tr>
@@ -39,52 +38,79 @@
 				</tr>
 			</thead>
 			<tbody>
-				
+
 			</tbody>
 		</table>
 	</div>
-	 <div class="panel-footer">
-	
-		第1页,共10页,每页显示10条,共100条   <select class="select">
+	<div class="panel-footer">
+
+		第1页,共10页,每页显示10条,共100条 <select class="select">
 			<option>10</option>
 			<option>20</option>
 			<option>30</option>
 			<option>50</option>
 			<option>100</option>
 		</select>
-	<ul class="pagination pagination-sm" style="float:right;position:relative;top:-23px">
-		<li><a href="${base}/userInfo/pages/1-10">上一页</a></li>
-		<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#">4</a></li>
-		<li><a href="#">5</a></li>
-		<li><a href="${base}/userInfo/pages/1-10">下一页</a></li>
-	</ul>
-</div>
+		<ul class="pagination pagination-sm"
+			style="float: right; position: relative; top: -23px">
+			<li><a id="pre" href="#">上一页</a></li>
+			<li class="active"><a href="#">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">4</a></li>
+			<li><a href="#">5</a></li>
+			<li><a id="next" href="#">下一页</a></li>
+		</ul>
+	</div>
 	<script src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
 	<script src="${base}/lib/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
-		$.ajax({
-			url:"${base}/userInfo/pages/1-10",
-			dataType : "json",
-			success : function(data) {
-				var userlist=data.userpages.list;
-				for (i = 0; i < userlist.length; i++) {
-				$("tbody").before("<tr>");
-				$("tbody").before("<td>"+userlist[i].tu_username+"</td>");
-				$("tbody").before("<td>"+userlist[i].tp_name+"</td>");
-				$("tbody").before("<td>"+userlist[i].operation_name+"</td>");
-				$("tbody").before("<td>"+userlist[i].tu_entry_time+"</td>");
-				$("tbody").before("<td>"+userlist[i].tu_name+"</td>");
-				$("tbody").before("<td>"+userlist[i].tu_createtime+"</td>");
-				$("tbody").before("</tr>");
-				}
-			}
-			});
-		alert($.parseJSON(htmlobj));
-	});
+		$(document).ready(
+				function() {
+					$(".pagination li a").click(function() {
+						var num = $(this).parent(".active").text();
+						var reg = new RegExp("^[0-9]*$", "g");
+						if ($(this).attr("id") == "pre") {
+							$(this).parent(".active").prev("li").addClass("active");
+							//$(this).eq(num - 1).parent().addClass("active");
+
+						} else if ($(this).attr("id") == "next") {
+							$(this).parent(".active").next("li").addClass("active");
+							//$(this).eq(num + 1).parent().addClass("active");
+						} else {
+
+							if (reg.test($(this).text())) {
+								$(".pagination li").removeClass();
+								$(this).parent().addClass("active");
+							}
+						}
+
+					});
+					$.ajax({
+						url : "${base}/userInfo/pages/1-10",
+						dataType : "json",
+						success : function(data) {
+							var userlist = data.userpages.list;
+							var htmlcontent = "";
+							for (i = 0; i < userlist.length; i++) {
+								htmlcontent += "<tr> <td>"
+										+ userlist[i].tu_username + "</td>";
+								htmlcontent += "<td>" + userlist[i].tp_name
+										+ "</td>";
+								htmlcontent += "<td>"
+										+ userlist[i].operation_name + "</td>";
+								htmlcontent += "<td>"
+										+ userlist[i].tu_entry_time + "</td>";
+								htmlcontent += "<td>" + userlist[i].tu_name
+										+ "</td>";
+								htmlcontent += "<td>"
+										+ userlist[i].tu_createtime
+										+ "</td></tr>";
+							}
+							$("#usertable tbody").append(htmlcontent);
+						}
+					});
+				});
 	</script>
 </body>
 </html>
