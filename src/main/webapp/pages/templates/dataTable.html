@@ -43,7 +43,6 @@
 		</table>
 	</div>
 	<div class="panel-footer">
-
 		第1页,共10页,每页显示10条,共100条 <select class="select">
 			<option>10</option>
 			<option>20</option>
@@ -51,15 +50,15 @@
 			<option>50</option>
 			<option>100</option>
 		</select>
-		<ul class="pagination pagination-sm"
+		<ul id="pagin" class="pagination pagination-sm"
 			style="float: right; position: relative; top: -23px">
-			<li><a id="pre" href="#">上一页</a></li>
+			<li><a id="pre" href="#">${i18n("page.previous")} </a></li>
 			<li class="active"><a href="#">1</a></li>
 			<li><a href="#">2</a></li>
 			<li><a href="#">3</a></li>
 			<li><a href="#">4</a></li>
 			<li><a href="#">5</a></li>
-			<li><a id="next" href="#">下一页</a></li>
+			<li><a id="next" href="#">${i18n("page.next")} </a></li>
 		</ul>
 	</div>
 	<script src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
@@ -67,25 +66,48 @@
 	<script type="text/javascript">
 		$(document).ready(
 				function() {
-					$(".pagination li a").click(function() {
-						var num = $(this).parent(".active").text();
-						var reg = new RegExp("^[0-9]*$", "g");
-						if ($(this).attr("id") == "pre") {
-							$(this).parent(".active").prev("li").addClass("active");
-							//$(this).eq(num - 1).parent().addClass("active");
-
-						} else if ($(this).attr("id") == "next") {
-							$(this).parent(".active").next("li").addClass("active");
-							//$(this).eq(num + 1).parent().addClass("active");
-						} else {
-
-							if (reg.test($(this).text())) {
-								$(".pagination li").removeClass();
-								$(this).parent().addClass("active");
+					function pagination(pagname,num) {
+						$("#pagin li").each(function() {
+							if("pre"==pagname){
+								if($(this).attr("id")!="pre"&&(num-1)==$(this).text()){
+									$(this).addClass("active");
+								}
+								return;
+							}else if("next"==pagname){
+								if($(this).attr("id")!="next"&&(num*1+1*1)==$(this).text()){
+									$(this).addClass("active");
+								}
+								return;
 							}
-						}
+							
+						});
+					}
+					$("#pagin li a").click(
+							function() {
+								var num = $("#pagin li.active").text();
+								var reg = new RegExp("^[0-9]*$", "g");
+								if ($(this).attr("id") == "pre") {
+									if (num == 1) {
+										return;
+									}
+									$("#pagin li.active").removeClass();
+									pagination("pre",num);
+								} else if ($(this).attr("id") == "next") {
+									if (num %5==0) {
+										return;
+									}
+									$("#pagin li.active").removeClass();
+									pagination("next",num);
+								} else {
 
-					});
+									if (reg.test($(this).text())) {
+										$(".pagination li").removeClass();
+										$(this).parent().addClass("active");
+									}
+								}
+
+							});
+
 					$.ajax({
 						url : "${base}/userInfo/pages/1-10",
 						dataType : "json",
