@@ -43,7 +43,10 @@
 		</table>
 	</div>
 	<div class="panel-footer">
-		第1页,共10页,每页显示10条,共100条 <select class="select">
+		第<span id="pagenum"></span>页,共<span id="totalpageNum"></span>页,每页显示<span
+			id="pageSize">10</span>条, 共<span id="totalRow"></span>条 <select
+			id="pageNumlist" class="select">
+			<option>5</option>
 			<option>10</option>
 			<option>20</option>
 			<option>30</option>
@@ -52,8 +55,8 @@
 		</select>
 		<ul id="pagin" class="pagination pagination-sm"
 			style="float: right; position: relative; top: -23px">
-			<li><a id="pre" href="#">${i18n("page.previous")} </a></li>
-			<li class="active"><a href="#">1</a></li>
+			<li id="pagenums"><a id="pre" href="#">${i18n("page.previous")} </a></li>
+		 	<li class="active"><a href="#">1</a></li>
 			<li><a href="#">2</a></li>
 			<li><a href="#">3</a></li>
 			<li><a href="#">4</a></li>
@@ -64,75 +67,196 @@
 	<script src="${base}/lib/jquery/jquery-1.11.1.min.js"></script>
 	<script src="${base}/lib/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					function pagination(pagname,num) {
-						$("#pagin li").each(function() {
-							if("pre"==pagname){
-								if($(this).attr("id")!="pre"&&(num-1)==$(this).text()){
-									$(this).addClass("active");
-								}
-								return;
-							}else if("next"==pagname){
-								if($(this).attr("id")!="next"&&(num*1+1*1)==$(this).text()){
-									$(this).addClass("active");
-								}
-								return;
+		$(document)
+				.ready(
+						function() {
+							//点击上一页或下一页时切换数字页数
+							function pagination(pagname, num) {
+								$("#pagin li").each(function() {
+													if ("pre" == pagname) {
+														if ($(this).attr("id") != pagname&& (num - 1) == $(this).text()) {
+															$(this).addClass("active");
+															return;
+														}
+														
+													} else if ("next" == pagname) {
+														if ($(this).attr("id") != pagname&& (num * 1 + 1 * 1) == $(this).text()) {
+															$(this).addClass("active");
+															return;
+														}
+														
+													}else{
+														alert("点击数字页数........");
+													}
+
+												});
 							}
-							
-						});
-					}
-					$("#pagin li a").click(
-							function() {
+							//点击下一页或换页时 清除或重置显示的数字页数
+							  function clearpages(pagename,num) {
+								var pagenums="";
+								 var reg = new RegExp("^[0-9]*$", "m");
+								 var totalpage=$("#totalpageNum").text();
+													if (pagename == "next") {
+													//alert("num="+num+"--totalpageNum="+$("#totalpageNum").text());
+													if((num-1)%5==0){
+														 $("#pagin li").each(function() {
+															 if (reg.test($(this).text())) {
+																$(this).remove();
+															}
+														}); 
+														var length=5;
+														if((num*1+5)<totalpage){
+															length=num*1+5;
+														}else{
+															length=totalpage*1+1;
+														}
+														for(var i=num;i<length;i++){
+															if(i==num){
+															pagenums+="<li class='active'><a href='#'>"+i+"</a></li>";
+															}else{
+																pagenums+="<li><a href='#'>"+i+"</a></li>";
+															}
+														}
+														$("#pagenums").after(pagenums);
+													}
+													}else if(pagename == "pre"){
+														if(num%5==0){
+														 $("#pagin li").each(function() {
+															 if (reg.test($(this).text())) {
+																$(this).remove();
+															}
+														}); 
+														 for(var i=num-4;i<=num;i++){
+															 if(i<0){
+																 return;
+															 }
+																if(i==num){
+																pagenums+="<li class='active'><a href='#'>"+i+"</a></li>";
+																}else{
+																pagenums+="<li><a href='#'>"+i+"</a></li>";
+																}
+															}
+														 $("#pagenums").after(pagenums);
+														}
+													}else if(pagename="pageNumlist"){
+														 $("#pagin li").each(function() {
+															 if (reg.test($(this).text())) {
+																$(this).remove();
+															}
+														});
+														 for(var i=num;i<=totalpage;i++){
+																if(i==num){
+																pagenums+="<li class='active'><a href='#'>"+i+"</a></li>";
+																}else{
+																pagenums+="<li><a href='#'>"+i+"</a></li>";
+																}
+															}
+														 $("#pagenums").after(pagenums);
+													}
+							}
+							//下拉列表选择每页显示记录时进行处理
+							$("#pageNumlist").change(function(){
+								pagingGetdata("pageNumlist");
+							});
+							$("#pagin li a").click(function() {
 								var num = $("#pagin li.active").text();
-								var reg = new RegExp("^[0-9]*$", "g");
+								var reg = new RegExp("^[0-9]*$", "m");
 								if ($(this).attr("id") == "pre") {
 									if (num == 1) {
 										return;
 									}
 									$("#pagin li.active").removeClass();
-									pagination("pre",num);
+									pagingGetdata("pre");
+									pagination("pre", num);
 								} else if ($(this).attr("id") == "next") {
-									if (num %5==0) {
+									//alert("num="+num+"-total"+$("#totalpageNum").text());
+									if(num>=$("#totalpageNum").text()*1){
 										return;
 									}
 									$("#pagin li.active").removeClass();
-									pagination("next",num);
+									pagingGetdata("next");
+									pagination("next", num);
 								} else {
-
 									if (reg.test($(this).text())) {
+										pagingGetdata($(this).text());
 										$(".pagination li").removeClass();
 										$(this).parent().addClass("active");
 									}
 								}
-
 							});
+							
+							//点击分页时获取数据
+							function pagingGetdata(pagename) {
+								var url = "${base}/userInfo/pages/";
+								var pagenum = 1;
+								var pagesize = $("#pageSize").text();
+								if (pagename == "pre") {
+									if ($("#pagenum").text() == 1) {
+										return;
+									}
+									pagenum = $("#pagenum").text() * 1 - 1;
+									//alert("上一页"+"="+pagenum);
+								} else if (pagename == "next") {
+									pagenum = $("#pagenum").text() * 1 + 1;
+									//alert("下一页"+"="+pagenum);
+								} else if (pagename == "pageNumlist") {
+									pagesize=$("#pageNumlist option:selected").text();
 
-					$.ajax({
-						url : "${base}/userInfo/pages/1-10",
-						dataType : "json",
-						success : function(data) {
-							var userlist = data.userpages.list;
-							var htmlcontent = "";
-							for (i = 0; i < userlist.length; i++) {
-								htmlcontent += "<tr> <td>"
-										+ userlist[i].tu_username + "</td>";
-								htmlcontent += "<td>" + userlist[i].tp_name
-										+ "</td>";
-								htmlcontent += "<td>"
-										+ userlist[i].operation_name + "</td>";
-								htmlcontent += "<td>"
-										+ userlist[i].tu_entry_time + "</td>";
-								htmlcontent += "<td>" + userlist[i].tu_name
-										+ "</td>";
-								htmlcontent += "<td>"
-										+ userlist[i].tu_createtime
-										+ "</td></tr>";
+								} else {
+									//点击数字页数时设置页数
+									pagenum = pagename;
+									//alert("数字页数"+"="+pagenum);
+								}
+
+								$.ajax({
+									url : url + pagenum + "-" + pagesize,
+									dataType : "json",
+									success : function(data) {
+										parseJson(data);
+										clearpages(pagename,pagenum);
+									}
+								});
 							}
-							$("#usertable tbody").append(htmlcontent);
-						}
-					});
-				});
+							function parseJson(data) {
+								var userlist = data.userpages.list;
+								var htmlcontent = "";
+								var pagenums="";
+								for (i = 0; i < userlist.length; i++) {
+									htmlcontent += "<tr> <td>"
+											+ userlist[i].tu_username + "</td>";
+									htmlcontent += "<td>" + userlist[i].tp_name
+											+ "</td>";
+									htmlcontent += "<td>"
+											+ userlist[i].operation_name
+											+ "</td>";
+									htmlcontent += "<td>"
+											+ userlist[i].tu_entry_time
+											+ "</td>";
+									htmlcontent += "<td>" + userlist[i].tu_name
+											+ "</td>";
+									htmlcontent += "<td>"
+											+ userlist[i].tu_createtime
+											+ "</td></tr>";
+								}
+								//pageSize":5,"pageNumber":1
+								//"totalRow":8,"totalPage":2
+								$("#usertable tbody tr").remove();
+								$("#usertable tbody").append(htmlcontent);
+								$("#pagenum").text(data.userpages.pageNumber);
+								$("#totalpageNum").text(
+										data.userpages.totalPage);
+								$("#pageSize").text(data.userpages.pageSize);
+								$("#totalRow").text(data.userpages.totalRow);
+							}
+							
+							$.ajax({
+								url : "${base}/userInfo/pages/1-1",
+								dataType : "json",
+								success : function(data) {
+									parseJson(data);
+								}
+							});
+						});
 	</script>
 </body>
 </html>
